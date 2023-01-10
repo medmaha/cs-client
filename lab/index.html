@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Laboratory</title>
+    </head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 90vh;
+            text-align: center;
+        }
+        input {
+            padding: 0.5rem 0.25rem;
+            width: 400px;
+        }
+        button {
+            padding: 0.5rem 0.25rem;
+            width: 100px;
+            cursor: pointer;
+        }
+        .output,
+        .matches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            width: 500px;
+            min-height: 50px;
+            border: 3px solid gray;
+            padding: 0.25rem 0.5rem;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(188, 185, 185);
+        }
+        .output {
+            background: rgb(205, 205, 246);
+            font-weight: lighter;
+            font-size: 1.1rem;
+            word-spacing: 1rem;
+        }
+    </style>
+    <body>
+        <h1>Regex String Manipulation</h1>
+
+        <form action="">
+            <input type="text" placeholder="write regex" />
+            <button type="submit">search</button>
+        </form>
+
+        <p>Regex matches</p>
+        <div class="matches"></div>
+
+        <div class="">
+            <h5>Target</h5>
+            <textarea cols="70" rows="5"></textarea>
+        </div>
+        <div class="">
+            <h3>Output</h3>
+            <div class="output"></div>
+        </div>
+
+        <script>
+            const form = document.querySelector("form")
+            const inputRegex = form.querySelector("input")
+            const resultsContainer = document.querySelector(".matches")
+            const outputContainer = document.querySelector(".output")
+
+            const textToSearch = document.querySelector("textarea")
+
+            form.addEventListener("submit", (ev) => {
+                ev.preventDefault()
+                regex()
+            })
+            inputRegex.addEventListener("input", regex)
+
+            function regex() {
+                const values = inputRegex.value.trim().split(" ")
+
+                const MATCHES = []
+                let OUTPUTS = ""
+
+                resultsContainer.innerHTML = ""
+                outputContainer.innerHTML = ""
+
+                MATCHES.forEach((match) => {})
+
+                makeOutputs(
+                    computedOutput(inputRegex.value, textToSearch.value),
+                )
+                makeResults(computedMatches())
+            }
+
+            function computedMatches() {
+                let computedMatch = ""
+                inputRegex.value
+                    .trim()
+                    .split(" ")
+                    .forEach((match) => {
+                        if (!match.trim().match(/[rpm]\w{0,}-.?\w{1,}.?/g))
+                            return
+
+                        const _match = match.split("-")[0]
+                        textToSearch.value.split(" ").forEach((v) => {
+                            if (v.includes(_match + "-")) {
+                                computedMatch += ` ${v}`
+                                console.log(v)
+                            }
+                        })
+                    })
+                return computedMatch
+            }
+
+            function _computedOutput() {
+                let computedOutput = ""
+
+                inputRegex.value
+                    .trim()
+                    .split(" ")
+                    .forEach((match) => {
+                        if (!match.trim().match(/[rpm]\w{0,}-.?\w{1,}.?/g))
+                            return
+
+                        /**
+                         *  @regKey the start/name of the class eg (p, m, py, rounded) ext
+                         */
+                        const regKey = new RegExp(
+                            `${match.match(/^(\w{0,})/g)}`,
+                        )
+
+                        /**
+                         *  @regValue the end/value of class eg (25, [46px], 0) ext
+                         */
+                        const regValue = new RegExp(
+                            `${match.match(/(?<=-)\w{0,}/g)}`,
+                        )
+
+                        /**
+                         * @query create regex query for class replacement
+                         */
+                        const query = new RegExp(
+                            `(?<=)${regKey.source}` + /-\w{0,}/.source,
+                            "g",
+                        )
+
+                        /**
+                         *  @output copies the original class
+                         */
+                        const output = textToSearch.value
+
+                        /**
+                         * @query split the new class string to chunk of words for iteration
+                         */
+                        const classes = output.trim().split(" ")
+                        const outputClasses = outputContainer.innerHTML.trim()
+
+                        // iterates over the class list
+
+                        for (let _class of classes) {
+                            // checks for matches like (p-[any] m-[any] rounded-[any])
+                            if (_class.match(query)) {
+                                if (computedOutput.length > 0) {
+                                    computedOutput = computedOutput.replace(
+                                        query,
+                                        match,
+                                    )
+                                } else {
+                                    computedOutput = output.replace(
+                                        query,
+                                        match,
+                                    )
+                                }
+                            }
+
+                            // replace the origin the class with dispatcher
+                        }
+                    })
+                // returns the computed class string if any or and empty string
+                return computedOutput
+            }
+
+            function computedOutput(
+                className,
+                originalClassName,
+                originalRegExPattern = /[rpm]\w{0,}-.?\w{1,}.?/g,
+            ) {
+                let computedClass = ""
+
+                className
+                    .trim()
+                    .split(" ")
+                    .forEach((match) => {
+                        if (!match.trim().match(originalRegExPattern)) return
+
+                        /**
+                         *  @regKey the start/name of the class eg (p, m, py, rounded) ext
+                         */
+                        const regKey = new RegExp(
+                            `${match.match(/^(\w{0,})/g)}`,
+                        )
+
+                        /**
+                         * @query create regex query for class replacement
+                         */
+                        const query = new RegExp(
+                            `(?<=)${regKey.source}` + /-\w{0,}/.source,
+                            "g",
+                        )
+
+                        /**
+                         *  @output copies the original class
+                         */
+                        const output = originalClassName
+
+                        /**
+                         * @query split the new class string to chunk of words for iteration
+                         */
+                        const classes = output.trim().split(" ")
+
+                        // iterates over the class list
+
+                        for (let _class of classes) {
+                            if (_class.match(query)) {
+                                if (computedClass.length > 0) {
+                                    computedClass = computedClass.replace(
+                                        query,
+                                        match,
+                                    )
+                                } else {
+                                    computedClass = output.replace(query, match)
+                                }
+                            }
+                        }
+                    })
+                return computedClass
+            }
+
+            function makeResults(match) {
+                match
+                    .trim()
+                    .split(" ")
+                    .forEach((m) => {
+                        const elm = document.createElement("span")
+                        elm.innerHTML = `"${m}"`
+                        resultsContainer.append(elm)
+                    })
+            }
+
+            function makeOutputs(value) {
+                outputContainer.innerHTML = value
+            }
+        </script>
+    </body>
+</html>

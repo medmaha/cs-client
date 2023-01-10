@@ -1,0 +1,17 @@
+button {
+    /* transition: transform 100ms; */
+    opacity: .9;
+}
+
+button:not(:disabled):hover {
+    opacity: 1;
+}
+
+button:not(:disabled):active {
+    transform: scale(.985);
+}
+
+
+input:focus {
+    outline-color: var(--primary);
+}
