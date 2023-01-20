@@ -1,3 +1,7 @@
+svg {
+    fill: currentColor;
+}
+
 button {
     /* transition: transform 100ms; */
     opacity: .9;
@@ -14,4 +18,19 @@ button:not(:disabled):active {
 
 input:focus {
     outline-color: var(--primary);
+}
+
+#composeCreate .input__ {
+    cursor: pointer;
+    color: rgba($color: black, $alpha: 0.5);
+}
+
+#composeCreate .input__:hover {
+    box-shadow: 0 0 5px rgba($color: black, $alpha: 0.1);
+}
+
+#composeCreate input::placeholder {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

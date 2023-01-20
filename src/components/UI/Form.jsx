@@ -64,7 +64,7 @@ export default function Form({
                             className={`py-2 px-5 rounded-md w-full transition-[background-color] ${
                                 validated
                                     ? "bg-primary text-white"
-                                    : "secondary-bg secondary-text"
+                                    : "tertiary-bg secondary-text"
                             }`}
                         />
                     </div>
@@ -87,7 +87,7 @@ export default function Form({
                                         Don't have an account?{" "}
                                     </span>
                                     <Link
-                                        href="/register"
+                                        href="/auth/register"
                                         className="text-primary cursor-pointer"
                                     >
                                         <span className="">Sign up</span>
@@ -104,7 +104,7 @@ export default function Form({
                                         Already have an account?{" "}
                                     </span>
                                     <Link
-                                        href="/login"
+                                        href="/auth/login"
                                         className="text-primary cursor-pointer"
                                     >
                                         <span className="">Log in</span>

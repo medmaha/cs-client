@@ -1,8 +1,9 @@
-import { capitalize } from "../../../utils/texts"
+import { capitalize } from "../../../libs/texts"
 import Icon from "../UI/Icon"
 import Link from "next/link"
 
-export default function NavigationLinks() {
+export default function NavigationLinks({ createLinkHandler }) {
+    //
     function handleLinkClicked(ev) {
         const link =
             ev.target.closest("[data-link]") ||
@@ -10,37 +11,51 @@ export default function NavigationLinks() {
 
         if (!link) return
 
-        console.log(link)
+        switch (link.dataset.link) {
+            case "create":
+                createLinkHandler()
+                break
+
+            default:
+                break
+        }
+
+        // console.log(link)
     }
+
     return (
-        <div className="nav-links w-full hidden sm:inline-block gap-[1rem]">
-            <ul className="flex items-center justify-evenly min-w-[200px] gap-[.5rem]">
+        <div className="nav-links hidden w-full h-full sm:inline-block gap-[1rem]">
+            <ul className="flex items-center h-full gap-1 justify-evenly ">
                 {links.map((link, idx) => {
                     return (
                         <li
                             data-link={link.icon}
                             key={idx}
-                            title={capitalize(link.icon)}
-                            className={`flex items-center ${
+                            className={`flex items-center justify-center h-[75%] w-full ${
                                 idx === 0 ? "active" : ""
                             }`}
-                            onClick={handleLinkClicked}
                         >
                             {link.path ? (
                                 <Link
                                     href={link.path}
-                                    className="flex items-center"
+                                    onClick={handleLinkClicked}
+                                    title={capitalize(link.icon)}
+                                    className="flex h-[75%] w-[75%] items-center"
                                 >
                                     <Icon
                                         name={link.icon}
-                                        className="md:w-[1.2rem] w-[1rem] cursor-pointer"
+                                        className="w-[1.2em] h-[1.2em] cursor-pointer"
                                     />
                                 </Link>
                             ) : (
-                                <button className="flex items-center">
+                                <button
+                                    onClick={handleLinkClicked}
+                                    title={capitalize(link.icon)}
+                                    className="flex h-[75%] w-[75%] items-center"
+                                >
                                     <Icon
                                         name={link.icon}
-                                        className="md:w-[1.2rem] w-[1rem] cursor-pointer"
+                                        className="w-[1.2em] h-[1.2em] cursor-pointer"
                                     />
                                 </button>
                             )}

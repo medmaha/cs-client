@@ -26,7 +26,8 @@ export const appSlice = createSlice({
         activeLink: "home",
 
         moods: {
-            createPost: false,
+            createPost: null,
+            updateFeeds: null,
             verification: COOKIES.get("acid") !== null,
             playingAudio: false,
 

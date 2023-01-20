@@ -1,59 +1,40 @@
 //
 
 // ? Client side cookie hanlder
-function ServerCookies(req, res, action) {
+function CSCookie() {
     //
-    function set(name, value, days, httpOnly) {
-        var expires = ""
-        var _httpOnly = ""
-
-        if (days) {
-            var date = new Date()
-            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
-            expires = "; expires=" + date.toUTCString()
+    function set(options = { name: "", value: "" }) {
+        options = {
+            name: "",
+            value: "",
+            expires: 1,
+            path: "/",
+            sameSite: "None",
+            secure: false,
+            ...options,
         }
-        if (httpOnly) {
-            _httpOnly = "; httpOnly=true"
-        }
-
-        res.setHeader(
-            "set-cookie",
-            `${name}=${value} ${expires} ${_httpOnly}; path=/"`,
+        var expiresDate = new Date()
+        expiresDate.setTime(
+            expiresDate.getTime() + options.expires * 24 * 60 * 60 * 1000,
         )
+        var expiresString = options.expires
+            ? "; expires=" + expiresDate.toUTCString()
+            : ""
+        var pathString = options.path ? "; path=" + options.path : ""
+        var sameSiteString = options.sameSite
+            ? "; sameSite=" + options.sameSite
+            : ""
+        var secureString = options.secure ? "; secure" : ""
+        document.cookie =
+            options.name +
+            "=" +
+            options.value +
+            expiresString +
+            pathString +
+            sameSiteString +
+            secureString
     }
-    function get(name) {
-        const cookie = req.headers.cookie(name)
-        if (cookie) return cookie
 
-        return null
-    }
-
-    function del() {}
-
-    return { set, get, del }
-}
-
-// ? Client side cookie hanlder
-function ClientCookies() {
-    //
-    function set(name, value, days, httpOnly) {
-        var expires = ""
-        if (days) {
-            if (String(days).length < 3) {
-                var date = new Date()
-                date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
-                expires = "expires=" + date.toUTCString()
-            } else {
-                expires = "expires=" + days
-            }
-        }
-
-        var _httpOnly = ""
-        if (httpOnly) {
-            _httpOnly = "httpOnly=true"
-        }
-        document.cookie = `${name}=${value};${expires};${_httpOnly};path=/"`
-    }
     function get(name) {
         var nameEQ = name + "="
         var ca = document.cookie.split(";")
@@ -73,4 +54,4 @@ function ClientCookies() {
     return { set, get, del }
 }
 
-export { ServerCookies, ClientCookies }
+export default CSCookie

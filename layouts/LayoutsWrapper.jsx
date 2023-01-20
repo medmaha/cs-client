@@ -3,6 +3,7 @@ import Navbar from "../src/components/navbar/Navbar"
 import { Provider } from "react-redux"
 import AppsReduxStore from "../src/redux/store"
 import ContextProvider from "./context"
+import { useEffect } from "react"
 
 export default function LayoutsWrapper({ children }) {
     return (
@@ -28,8 +29,4 @@ function Layout({ children }) {
             </Provider>
         </>
     )
-}
-
-export async function getServerSideProps(ctx) {
-    console.log(ctx.req)
 }

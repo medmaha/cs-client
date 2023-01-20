@@ -20,12 +20,14 @@
 }
 
 .cs-border {
+    border-style: solid;
     border-color: var(--bg-tertiary);
 }
 
 .cs-outline {
     outline-style: solid;
     outline-color: var(--bg-tertiary);
+    outline-width: 2px;
 }
 
 
@@ -35,6 +37,36 @@
     border-radius: .5rem;
 }
 
+.cs-text-truncate {
+    display: block;
+    overflow: hidden;
+    max-height: 3rem;
+    -webkit-line-clamp: 3;
+    display: flex;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.cs-interaction-btn {
+    cursor: pointer;
+    border-radius: 100%;
+    transition-duration: 100ms;
+
+    svg {
+        transition: fill 100ms;
+        opacity: .8;
+    }
+
+    &:hover {
+        svg {
+            opacity: 1;
+            fill: inherit;
+        }
+    }
+}
+
 
 .cs-divider {
     display: inline-block;
@@ -42,4 +74,60 @@
     height: 1px;
     margin: .25rem 0;
     background-color: var(--bg-tertiary);
+}
+
+.cs-user-card {
+    animation-name: card-pulse;
+    animation-duration: 500ms;
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.cs-pulse-text {
+    animation-name: text-pulse;
+    animation-duration: 1000ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+}
+
+
+.cs-shake-card {
+    animation-name: shake-card;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 2;
+    animation-fill-mode: backwards;
+    outline: 3px solid var(--primary-light);
+}
+
+@keyframes shake-card {
+    0% {
+        transform: scale(.98);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes card-pulse {
+    0% {
+        opacity: 0%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes text-pulse {
+    0% {
+        opacity: 50%;
+    }
+
+    100% {
+        opacity: 100%;
+    }
 }

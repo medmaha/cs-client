@@ -5,12 +5,12 @@ export default function Discover() {
 }
 
 export async function getServerSideProps(ctx) {
-    const isAuthenticated = ctx.req.cookies.atr
+    const isAuthenticated = ctx.req.cookies["cs-csrfkey"]
 
     if (!isAuthenticated) {
         return {
             redirect: {
-                destination: "/login",
+                destination: "/auth/login",
                 permanent: false,
                 // statusCode: 301,
             },

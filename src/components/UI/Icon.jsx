@@ -22,7 +22,7 @@ function Icon({ className, name, __class, title }) {
 Icon.defaultProps = {
     className: "",
     title: "",
-    __class: "w-[1.2rem] h-[1.2rem] cs-icon-color",
+    __class: "w-[1.1rem]",
 }
 
 export default Icon

@@ -1,29 +1,54 @@
 import axios from "axios"
-import jwtDecode from "jwt-decode"
-import { ClientCookies } from "./libs/cookies"
 
-const BASE_URL = "http://localhost:8000"
+console.log(axios.VERSION)
+
+export const CELESUP_BACKEND_URL =
+    process.env.CELESUP_BACKEND_URL || "http://localhost:8000"
+export const CELESUP_FRONTEND_URL = process.env.CELESUP_FRONTEND_URL
 
 export const celesupBackendApi = axios.create({
-    baseURL: BASE_URL,
+    baseURL: CELESUP_BACKEND_URL,
+    withCredentials: true,
     headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
+        "Celesup-APi": `${axios.VERSION}v`,
+        // Authorization: "Bearer YOUR_TOKEN",
     },
 })
 
 celesupBackendApi.interceptors.request.use((config) => {
-    async function compute() {}
-    const cookies = ClientCookies()
-
-    const c = cookies.get("ata")
-
-    if (c) {
-        const expiresAt = jwtDecode(c).exp
-
-        if (expiresAt * 1000 + 10 - expiresAt * 1000 > 1) {
-            console.log("accessToken expires")
-        }
-        console.log(c)
-    }
     return config
 })
+
+//? ----------------------------------------------------------------------------------------------------------------------------------
+//! ----------------------------------------------------------------------------------------------------------------------------------
+//? ----------------------------------------------------------------------------------------------------------------------------------
+
+let cancel_2
+
+export const celesupFrontendApi = axios.create({
+    baseURL: CELESUP_FRONTEND_URL,
+    headers: {
+        "Content-Type": "application/json",
+    },
+})
+
+// celesupFrontendApi.interceptors.request.use((config) => {
+//     const cancelToken = axios.CancelToken.source()
+//     cancel_2 = cancelToken.cancel
+//     config.cancelToken = cancelToken.token
+//     return config
+// })
+// celesupFrontendApi.interceptors.response.use(
+//     (response) => {
+//         return Promise.resolve(response)
+//     },
+//     (error) => {
+//         if (axios.isCancel(error)) {
+//             console.log("Request canceled", error.message)
+//         } else {
+//             console.log(error)
+//         }
+//         return Promise.resolve(error)
+//     },
+// )

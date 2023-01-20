@@ -4,255 +4,43 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Laboratory</title>
+        <title>Document</title>
+
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+
+            .cs-interaction-btn {
+                padding: 2rem;
+                transition: background-color 100ms;
+                cursor: pointer;
+            }
+            .cs-interaction-btn:hover {
+                background: attr(data-color);
+            }
+
+            .cs-interaction-btn:hover svg {
+                fill: inherit;
+            }
+            svg {
+                transition: fill 100ms;
+                fill: black;
+                width: 3rem;
+                height: 3rem;
+            }
+        </style>
     </head>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 90vh;
-            text-align: center;
-        }
-        input {
-            padding: 0.5rem 0.25rem;
-            width: 400px;
-        }
-        button {
-            padding: 0.5rem 0.25rem;
-            width: 100px;
-            cursor: pointer;
-        }
-        .output,
-        .matches {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            width: 500px;
-            min-height: 50px;
-            border: 3px solid gray;
-            padding: 0.25rem 0.5rem;
-            align-items: center;
-            justify-content: center;
-            background-color: rgb(188, 185, 185);
-        }
-        .output {
-            background: rgb(205, 205, 246);
-            font-weight: lighter;
-            font-size: 1.1rem;
-            word-spacing: 1rem;
-        }
-    </style>
     <body>
-        <h1>Regex String Manipulation</h1>
-
-        <form action="">
-            <input type="text" placeholder="write regex" />
-            <button type="submit">search</button>
-        </form>
-
-        <p>Regex matches</p>
-        <div class="matches"></div>
-
-        <div class="">
-            <h5>Target</h5>
-            <textarea cols="70" rows="5"></textarea>
-        </div>
-        <div class="">
-            <h3>Output</h3>
-            <div class="output"></div>
-        </div>
-
-        <script>
-            const form = document.querySelector("form")
-            const inputRegex = form.querySelector("input")
-            const resultsContainer = document.querySelector(".matches")
-            const outputContainer = document.querySelector(".output")
-
-            const textToSearch = document.querySelector("textarea")
-
-            form.addEventListener("submit", (ev) => {
-                ev.preventDefault()
-                regex()
-            })
-            inputRegex.addEventListener("input", regex)
-
-            function regex() {
-                const values = inputRegex.value.trim().split(" ")
-
-                const MATCHES = []
-                let OUTPUTS = ""
-
-                resultsContainer.innerHTML = ""
-                outputContainer.innerHTML = ""
-
-                MATCHES.forEach((match) => {})
-
-                makeOutputs(
-                    computedOutput(inputRegex.value, textToSearch.value),
-                )
-                makeResults(computedMatches())
-            }
-
-            function computedMatches() {
-                let computedMatch = ""
-                inputRegex.value
-                    .trim()
-                    .split(" ")
-                    .forEach((match) => {
-                        if (!match.trim().match(/[rpm]\w{0,}-.?\w{1,}.?/g))
-                            return
-
-                        const _match = match.split("-")[0]
-                        textToSearch.value.split(" ").forEach((v) => {
-                            if (v.includes(_match + "-")) {
-                                computedMatch += ` ${v}`
-                                console.log(v)
-                            }
-                        })
-                    })
-                return computedMatch
-            }
-
-            function _computedOutput() {
-                let computedOutput = ""
-
-                inputRegex.value
-                    .trim()
-                    .split(" ")
-                    .forEach((match) => {
-                        if (!match.trim().match(/[rpm]\w{0,}-.?\w{1,}.?/g))
-                            return
-
-                        /**
-                         *  @regKey the start/name of the class eg (p, m, py, rounded) ext
-                         */
-                        const regKey = new RegExp(
-                            `${match.match(/^(\w{0,})/g)}`,
-                        )
-
-                        /**
-                         *  @regValue the end/value of class eg (25, [46px], 0) ext
-                         */
-                        const regValue = new RegExp(
-                            `${match.match(/(?<=-)\w{0,}/g)}`,
-                        )
-
-                        /**
-                         * @query create regex query for class replacement
-                         */
-                        const query = new RegExp(
-                            `(?<=)${regKey.source}` + /-\w{0,}/.source,
-                            "g",
-                        )
-
-                        /**
-                         *  @output copies the original class
-                         */
-                        const output = textToSearch.value
-
-                        /**
-                         * @query split the new class string to chunk of words for iteration
-                         */
-                        const classes = output.trim().split(" ")
-                        const outputClasses = outputContainer.innerHTML.trim()
-
-                        // iterates over the class list
-
-                        for (let _class of classes) {
-                            // checks for matches like (p-[any] m-[any] rounded-[any])
-                            if (_class.match(query)) {
-                                if (computedOutput.length > 0) {
-                                    computedOutput = computedOutput.replace(
-                                        query,
-                                        match,
-                                    )
-                                } else {
-                                    computedOutput = output.replace(
-                                        query,
-                                        match,
-                                    )
-                                }
-                            }
-
-                            // replace the origin the class with dispatcher
-                        }
-                    })
-                // returns the computed class string if any or and empty string
-                return computedOutput
-            }
-
-            function computedOutput(
-                className,
-                originalClassName,
-                originalRegExPattern = /[rpm]\w{0,}-.?\w{1,}.?/g,
-            ) {
-                let computedClass = ""
-
-                className
-                    .trim()
-                    .split(" ")
-                    .forEach((match) => {
-                        if (!match.trim().match(originalRegExPattern)) return
-
-                        /**
-                         *  @regKey the start/name of the class eg (p, m, py, rounded) ext
-                         */
-                        const regKey = new RegExp(
-                            `${match.match(/^(\w{0,})/g)}`,
-                        )
-
-                        /**
-                         * @query create regex query for class replacement
-                         */
-                        const query = new RegExp(
-                            `(?<=)${regKey.source}` + /-\w{0,}/.source,
-                            "g",
-                        )
-
-                        /**
-                         *  @output copies the original class
-                         */
-                        const output = originalClassName
-
-                        /**
-                         * @query split the new class string to chunk of words for iteration
-                         */
-                        const classes = output.trim().split(" ")
-
-                        // iterates over the class list
-
-                        for (let _class of classes) {
-                            if (_class.match(query)) {
-                                if (computedClass.length > 0) {
-                                    computedClass = computedClass.replace(
-                                        query,
-                                        match,
-                                    )
-                                } else {
-                                    computedClass = output.replace(query, match)
-                                }
-                            }
-                        }
-                    })
-                return computedClass
-            }
-
-            function makeResults(match) {
-                match
-                    .trim()
-                    .split(" ")
-                    .forEach((m) => {
-                        const elm = document.createElement("span")
-                        elm.innerHTML = `"${m}"`
-                        resultsContainer.append(elm)
-                    })
-            }
-
-            function makeOutputs(value) {
-                outputContainer.innerHTML = value
-            }
-        </script>
+        <span class="cs-interaction-btn" data-color="red">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                    d="M244 84L255.1 96L267.1 84.02C300.6 51.37 347 36.51 392.6 44.1C461.5 55.58 512 115.2 512 185.1V190.9C512 232.4 494.8 272.1 464.4 300.4L283.7 469.1C276.2 476.1 266.3 480 256 480C245.7 480 235.8 476.1 228.3 469.1L47.59 300.4C17.23 272.1 0 232.4 0 190.9V185.1C0 115.2 50.52 55.58 119.4 44.1C164.1 36.51 211.4 51.37 244 84C243.1 84 244 84.01 244 84L244 84zM255.1 163.9L210.1 117.1C188.4 96.28 157.6 86.4 127.3 91.44C81.55 99.07 48 138.7 48 185.1V190.9C48 219.1 59.71 246.1 80.34 265.3L256 429.3L431.7 265.3C452.3 246.1 464 219.1 464 190.9V185.1C464 138.7 430.4 99.07 384.7 91.44C354.4 86.4 323.6 96.28 301.9 117.1L255.1 163.9z"
+                />
+            </svg>
+        </span>
     </body>
 </html>
