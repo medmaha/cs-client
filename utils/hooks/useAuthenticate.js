@@ -16,14 +16,12 @@ export default function useAuthenticated(user) {
     const [authPending, setPending] = useState(null)
 
     useEffect(() => {
-        return () => {
-            if (cookies.get("cs-csrfkey")) {
-                setController(new AbortController())
-                authenticate()
-            } else {
-                setError(true)
-                router.replace("/auth/login")
-            }
+        if (cookies.get("cs-csrfkey")) {
+            setController(new AbortController())
+            authenticate()
+        } else {
+            setError(true)
+            router.replace("/auth/login")
         }
     }, [user])
 
