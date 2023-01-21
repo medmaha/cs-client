@@ -14,7 +14,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: "Access-Control-Allow-Headers",
-                        value: "accepts,content-type,origin,authorization,x-csrftoken,x-requested-with",
+                        value: "accepts,content-type,origin,authorization,celesup-api,x-csrftoken,x-requested-with",
                     },
                 ],
             },
@@ -24,7 +24,7 @@ const nextConfig = {
         includePaths: [path.join(__dirname, "styles")],
     },
     images: {
-        domains: [process.env.IMAGE_DOMAIN || "localhost"],
+        domains: [process.env.IMAGE_DOMAIN || "", "localhost"],
     },
     env: {
         CELESUP_BACKEND_URL: process.env.CELESUP_BACKEND_URL,
