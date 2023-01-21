@@ -25,11 +25,12 @@ function Navbar() {
                 {/* brand and searchBar*/}
                 <div className="inline-flex flex-1 h-full items-center gap-[1rem] justify-between">
                     <h1>
-                        <Link href="/" className="">
+                        <Link href="/" className="w-[35px] h-[35px]">
                             <Image
                                 src={"/images/cs-logo.png"}
-                                alt="logo"
+                                alt="celesup logo"
                                 width={35}
+                                style={{ objectFit: "cover" }}
                                 height={35}
                             />
                         </Link>

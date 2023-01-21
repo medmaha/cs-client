@@ -52,7 +52,7 @@ export default function useAuthenticated(user) {
                     setError("Something went wrong auth hook")
                 }
                 if (err.response?.status >= 400) {
-                    router.replace("auth/login")
+                    router.replace("/auth/login")
                     setError("not_logged_in")
                 }
             })

@@ -24,7 +24,11 @@ const nextConfig = {
         includePaths: [path.join(__dirname, "styles")],
     },
     images: {
-        domains: ["localhost"],
+        domains: [process.env.IMAGE_DOMAIN || "localhost"],
+    },
+    env: {
+        CELESUP_BACKEND_URL: process.env.CELESUP_BACKEND_URL,
+        CELESUP_FRONTEND_URL: process.env.CELESUP_FRONTEND_URL,
     },
 }
 

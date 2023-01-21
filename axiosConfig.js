@@ -2,8 +2,7 @@ import axios from "axios"
 
 console.log(axios.VERSION)
 
-export const CELESUP_BACKEND_URL =
-    process.env.CELESUP_BACKEND_URL || "http://localhost:8000"
+export const CELESUP_BACKEND_URL = process.env.CELESUP_BACKEND_URL
 export const CELESUP_FRONTEND_URL = process.env.CELESUP_FRONTEND_URL
 
 export const celesupBackendApi = axios.create({

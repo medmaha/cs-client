@@ -1,11 +1,15 @@
 import { changeClassName } from "../../../libs/texts"
 
 function Input(props) {
-    const { altText, className, ...restProps } = props
+    let { id, altText, className, ...restProps } = props
+
+    if (!id) {
+        id = Date.now()
+    }
 
     const __class = changeClassName(className, props.__class)
 
-    return <input alt={altText} className={__class} {...restProps} />
+    return <input id={id} alt={altText} className={__class} {...restProps} />
 }
 
 Input.defaultProps = {
