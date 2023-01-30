@@ -13,10 +13,11 @@ export default function Dropdown({
 
     useEffect(() => {
         // setStyles()
-        if (!isActive) return
-        document.addEventListener("click", awaitExitEvent)
+        if (isActive) {
+            document.addEventListener("click", awaitExitEvent)
 
-        setStyles(content, options)
+            setStyles(content, options)
+        }
 
         return () => document.removeEventListener("click", awaitExitEvent)
 
