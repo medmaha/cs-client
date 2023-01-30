@@ -11,7 +11,6 @@ function Icon({ className, name, __class, title }) {
         <svg
             className={__class}
             viewBox={matchedIcon.viewBox}
-            title={title}
             xmlns="http://www.w3.org/2000/svg"
         >
             {matchedIcon.path}
@@ -21,7 +20,6 @@ function Icon({ className, name, __class, title }) {
 
 Icon.defaultProps = {
     className: "",
-    title: "",
     __class: "w-[1.1rem]",
 }
 

@@ -2,7 +2,7 @@ import Image from "next/image"
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import Button from "./Button"
 
-let hoveringTimeout
+let hoveringTimeout: any
 
 import { Author } from "../../apps/globalInterface"
 
