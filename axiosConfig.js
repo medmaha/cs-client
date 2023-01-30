@@ -1,7 +1,5 @@
 import axios from "axios"
 
-console.log(axios.VERSION)
-
 export const CELESUP_BACKEND_URL = process.env.CELESUP_BACKEND_URL
 export const CELESUP_FRONTEND_URL = process.env.CELESUP_FRONTEND_URL
 
@@ -18,6 +16,19 @@ export const celesupBackendApi = axios.create({
 celesupBackendApi.interceptors.request.use((config) => {
     return config
 })
+
+// celesupBackendApi.interceptors.response.use(
+//     (res) => {
+//         return Promise.resolve(res)
+//     },
+//     (err) => {
+//         if (err.response?.status === 403 || err.response?.status === 401) {
+//             window.location.href = "/auth/login"
+//         }
+
+//         return Promise.reject(err)
+//     },
+// )
 
 //? ----------------------------------------------------------------------------------------------------------------------------------
 //! ----------------------------------------------------------------------------------------------------------------------------------

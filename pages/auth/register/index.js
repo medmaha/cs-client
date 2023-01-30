@@ -1,47 +1,74 @@
-import React from "react"
-import Form from "../../../src/components/UI/Form"
+import { useLayoutEffect, useReducer } from "react"
+import EmailSignup from "./EmailSignup"
+import PasswordSignup from "./PasswordSignup"
+import { useRouter } from "next/router"
+
+import CSCryptography from "../../../libs/crypto"
 
 export default function Register() {
+    const [state, dispatchStates] = useReducer(reducer, {
+        stage: 1,
+        data: null,
+    })
+
+    const router = useRouter()
+
+    useLayoutEffect(() => {
+        if (state.data === "redirect") {
+            const emailOrPhone = state.prev.email ? "email" : "phone"
+            const encryptEmailOrPhone = CSCryptography.encrypt(emailOrPhone)
+
+            const emailOrPhoneValue = state.prev.email || state.prev.phone
+            const encryptEmailOrPhoneValue =
+                CSCryptography.encrypt(emailOrPhoneValue)
+
+            localStorage.setItem(
+                "auth",
+                JSON.stringify({
+                    key: encryptEmailOrPhone,
+                    value: encryptEmailOrPhoneValue,
+                }),
+            )
+
+            router.replace({
+                pathname: state.redirect,
+            })
+        }
+        // eslint-disable-next-line
+    }, [state])
+
     return (
-        <div className="flex justify-center w-full mt-[50px]">
+        <div className="flex justify-center w-full mt-[10px]">
             <div className="w-full max-w-[500px]">
                 <div className="flex flex-col items-center gap-2 justify-center py-[20px]">
-                    <Form
-                        onSubmit={() => {}}
-                        signup={true}
-                        method="post"
-                        submitBtn="Sign up"
-                        fields={fields}
-                        header={<Heading />}
-                    />
+                    {state.stage === 1 ? (
+                        <EmailSignup
+                            onSubmittedData={(response) => {
+                                dispatchStates({
+                                    type: "stage_2",
+                                    payload: { data: response.data },
+                                })
+                            }}
+                        />
+                    ) : (
+                        <PasswordSignup
+                            onSubmittedData={(response) => {
+                                dispatchStates({
+                                    type: "stage_3",
+                                    payload: { data: response.data },
+                                })
+                            }}
+                            data={state.data}
+                        />
+                    )}
                 </div>
             </div>
         </div>
     )
 }
 
-const Heading = () => (
-    <>
-        <b>Join Celesup Today</b>
-        <p className="text-sm">It’s quick and easy</p>
-    </>
-)
-
-const fields = [
-    {
-        type: "text",
-        name: "username",
-        placeholder: "phone or email",
-    },
-    {
-        type: "password",
-        name: "password",
-        placeholder: "password",
-    },
-]
-
 export async function getServerSideProps(ctx) {
-    const isAuthenticated = ctx.req.cookies.atr
+    const isAuthenticated = ctx.req.cookies["cs-csrkKey"]
 
     if (isAuthenticated) {
         return {
@@ -55,5 +82,24 @@ export async function getServerSideProps(ctx) {
 
     return {
         props: {}, // will be passed to the page component as props
+    }
+}
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "stage_2":
+            return {
+                stage: 2,
+                data: action.payload.data,
+            }
+        case "stage_3":
+            return {
+                ...state,
+                prev: state.data,
+                data: "redirect",
+                redirect: "/auth/register/verify",
+            }
+        default:
+            state
     }
 }

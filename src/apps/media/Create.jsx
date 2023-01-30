@@ -1,5 +1,5 @@
 import { Provider } from "react-redux"
-import { createContext, useState } from "react"
+import { createContext, useCallback, useEffect, useState } from "react"
 import { AppStore } from "../../redux/store"
 
 import Modal from "../../components/UI/Modal"
@@ -8,18 +8,26 @@ import Modal from "../../components/UI/Modal"
 import CreatePost from "./post/CreatePost"
 
 export default function Create({ onClick }) {
-    const [config, setConfig] = useState({})
+    const [modalConfig, updateModalConfig] = useState({})
+
+    const setConfig = useCallback((data) => {
+        return updateModalConfig((prev) => {
+            return {
+                ...prev,
+                ...data,
+            }
+        })
+    }, [])
+
     return (
         <>
             <Modal
                 onClick={onClick}
-                options={{
-                    maxHeight: true,
-                    setHeader: <>{config.header || ""}</>,
-                }}
+                options={{}}
                 headerContent={false}
+                jsxHeaderContent={modalConfig.header || <></>}
+                jsxFooterContent={modalConfig.footer || null}
                 jsxContent={<CreatePost setConfig={setConfig} />}
-                jsxHeaderContent={config.header || <></>}
             />
         </>
     )

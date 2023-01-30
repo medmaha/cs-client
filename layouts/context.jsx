@@ -7,29 +7,23 @@ import { useAuthenticated } from "../utils/hooks"
 
 import Toast from "../libs/toast"
 import { Create } from "../src/apps/media"
+import { useLayoutEffect } from "react"
 
 const GlobalContext = createContext()
 
 function ContextProvider({ children }) {
     const { user, tokens, moods } = useSelector((state) => state.main)
 
-    const { authData, authError, authPending } = useAuthenticated(user)
+    const { authData, authPending } = useAuthenticated(user)
 
     const storeDispatch = useDispatch()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (authData?.id) {
             storeDispatch(updateAuthUser({ user: authData }))
         }
+        // eslint-disable-next-line
     }, [authData])
-
-    useEffect(() => {
-        if (authError) {
-            // const toast = new Toast({ text: authError, className: "invalid" })
-            // storeDispatch(updateAuthUser({ user: null }))
-        }
-        // console.log(authError)
-    }, [authError])
 
     const initialValues = {
         user,
@@ -41,7 +35,7 @@ function ContextProvider({ children }) {
     }
     return (
         <GlobalContext.Provider value={{ ...initialValues }}>
-            {(authData || authError) && !authPending && (
+            {!authPending && (
                 <>
                     {children}
                     {moods.createPost && (

@@ -68,7 +68,7 @@ nav {
         overflow: hidden;
         cursor: pointer;
         margin: 0 .5rem;
-        background-color: var(--bg-color);
+        background-color: var(--bg-tertiary);
 
         &.can-close::after {
             position: absolute;

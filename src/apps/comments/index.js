@@ -1,3 +1,3 @@
-import Comments from "./CommentsWrapper"
+import CommentsWrapper from "./CommentsWrapper"
 
-export default Comments
+export default CommentsWrapper

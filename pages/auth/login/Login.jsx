@@ -1,61 +1,49 @@
 import { useRouter } from "next/router"
-import { useContext } from "react"
+import { useContext, useLayoutEffect } from "react"
 import { GlobalContext } from "../../../layouts/context"
 import { capitalize } from "../../../libs/texts"
 import Form from "../../../src/components/UI/Form"
 import Toast from "../../../libs/toast"
 import { celesupBackendApi } from "../../../axiosConfig"
+import useAuthAxiosRequests from "../../../src/hooks/auth/useAuthAxiosRequests"
 
 //
 export default function Login() {
     const globalContext = useContext(GlobalContext)
     const router = useRouter()
+    const { data, sendRequest } = useAuthAxiosRequests()
+
+    useLayoutEffect(() => {
+        if (data) {
+            router.replace("/")
+            globalContext.storeDispatch(
+                globalContext.updateAuthUser({
+                    user: { ...data },
+                }),
+            )
+        }
+        // eslint-disable-next-line
+    }, [data])
 
     async function submitForm(ev) {
         ev.preventDefault()
 
-        const form = {}
+        const form = new FormData()
 
         ev.currentTarget.querySelectorAll("input").forEach((element) => {
-            form[element.name] = element.value
+            form.append(element.name, element.value)
         })
 
         // Todo --> filter formData
 
-        // fetch("/api/auth/login", {
-        //     method: "post",
-        //     body: JSON.stringify(form),
-        //     headers: { "Content-type": "application/json" },
-        // })
-
-        celesupBackendApi
-            .post("/obtain/user/tokens", form)
-            .then(({ data }) => {
-                console.log(data)
-                router.replace("/")
-                globalContext.storeDispatch(
-                    globalContext.updateAuthUser({
-                        user: atob(data.access.split(".")[1]),
-                    }),
-                )
-            })
-            .catch((err) => {
-                if (err?.response) {
-                    new Toast({
-                        position: "top-center",
-                        text: capitalize(
-                            err.response?.data.message || err.message,
-                        ),
-                        className: "invalid",
-                    })
-                    return
-                }
-                new Toast({
-                    position: "top-center",
-                    text: capitalize(err.response?.data.message || err.message),
-                    className: "invalid",
-                })
-            })
+        sendRequest({
+            url: "/login",
+            data: form,
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
     }
     return (
         <div className="flex justify-center w-full mt-[60px]">

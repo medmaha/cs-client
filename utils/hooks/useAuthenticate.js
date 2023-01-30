@@ -1,65 +1,43 @@
 import { useContext, useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import { Router, useRouter } from "next/router"
 import { celesupBackendApi } from "../../axiosConfig"
 import CSCookie from "../../libs/cookies"
+import { useLayoutEffect } from "react"
+import { getErrorMessageFromRequest } from "../getErrorMessageFromResponse"
 
 export default function useAuthenticated(user) {
-    const [controller, setController] = useState()
-    const [rendered, updateRendered] = useState(0)
     const router = useRouter()
     const cookies = CSCookie()
 
     // const {data, pending, error} = useReducer(reducer,{data:null, pending:null, error:null})
 
     const [authData, setData] = useState(null)
-    const [authError, setError] = useState(null)
-    const [authPending, setPending] = useState(null)
+    const [authPending, setPending] = useState(true)
 
-    useEffect(() => {
-        if (cookies.get("cs-csrfkey")) {
-            setController(new AbortController())
-            authenticate()
-        } else {
-            setError(true)
-            router.replace("/auth/login")
-        }
-    }, [user])
-
-    useEffect(() => {
-        // console.log(rendered)
-    }, [rendered])
+    useLayoutEffect(() => {
+        authenticate()
+        // if (cookies.get("cs-csrfkey") || cookies.get("cs-auth-val")) {
+        // authenticate()
+        //     return
+        // } else {
+        //     setPending(false)
+        //     router.replace("/auth/login")
+        // }
+    }, [])
 
     async function authenticate() {
         setPending(true)
-        const config = {
-            signal: controller,
-        }
-
         celesupBackendApi
-            .get("/authenticate", config)
+            .get("/authenticate")
             .then((res) => {
                 setData(res.data)
             })
             .catch((err) => {
-                if (err.response) {
-                    setError(
-                        err.response.data?.message ||
-                            "Something went wrong auth hook",
-                    )
-                    setPending(false)
-                } else {
-                    setPending(false)
-                    setError("Something went wrong auth hook")
-                }
-                if (err.response?.status >= 400) {
-                    router.replace("/auth/login")
-                    setError("not_logged_in")
-                }
+                // const errMsg = getErrorMessageFromRequest(err)
+                // setError(errMsg)
             })
             .finally(setPending(false))
-
-        updateRendered((prev) => prev++)
     }
 
-    return { authData, authPending, authError }
+    return { authData, authPending }
 }

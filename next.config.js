@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const path = require("path")
-const { Value } = require("sass")
 // const withSession = require("next-session")
 
 const nextConfig = {
