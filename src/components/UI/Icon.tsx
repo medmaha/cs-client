@@ -2,7 +2,7 @@ import { changeClassName } from "../../../libs/texts"
 
 import { iconsMap } from "../../../utils/iconsMap"
 
-function Icon({ className, name, __class, title }) {
+function Icon({ className, name, __class }) {
     const matchedIcon = iconsMap[name] || {}
 
     __class = changeClassName(className, __class)
