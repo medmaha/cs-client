@@ -6,7 +6,7 @@ import CSCookie from "../../../libs/cookies"
 import { updateMoods } from "../../redux/app"
 import Post from "./Post"
 
-import * as T from "./interfaces"
+import * as T from "./types/post"
 
 const COOKIES = CSCookie()
 

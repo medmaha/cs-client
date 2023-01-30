@@ -10,9 +10,13 @@ import CommentsWrapper from "../comments"
 import { Headers, Typography, Media, Interactions } from "./components"
 import postOpsReducer from "./utils/postOpsReducer"
 
-import * as Types from "./types/post"
+import * as T from "./types/post"
 
-export default function Post({ data }) {
+type Props = {
+    data: T.Post
+}
+
+export default function Post({ data }: Props) {
     const [post, setPostData] = useState({
         ...data,
         created_at: new CSDateTime(data.created_at).format(),
@@ -21,17 +25,7 @@ export default function Post({ data }) {
 
     const globalContext = useContext(GlobalContext)
 
-    function showCommentsBaseOnAction() {
-        const liked = post.likes?.find((user) => {
-            return user.id === globalContext.user.id
-        })
-        if (liked) {
-            dispatchPostReducer({
-                type: "TOGGLE_COMMENT",
-                payload: { data: true },
-            })
-        }
-    }
+    function showCommentsBaseOnAction() {}
 
     async function updatePostData(_data) {
         const _post = {

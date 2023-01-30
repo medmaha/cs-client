@@ -1,21 +1,13 @@
-import { UserInterface } from "../globalInterface"
-
-export interface PostInterface {
-    key: string
-    author: UserInterface
-    caption?: string
-    excerpt?: string
-    hashtags?: string
-    picture: string
-    video: string
-    music: string
-    created_at: string
-    updated_at: string
+export type Author = {
+    id: string
+    name?: string
+    avatar: string
+    username: string
 }
 
 export type Post = {
     key: string
-    author: UserInterface
+    author: Author
     caption?: string
     excerpt?: string
     hashtags?: string
