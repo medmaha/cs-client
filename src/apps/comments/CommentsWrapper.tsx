@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from "react"
+import React, { useRef, useLayoutEffect } from "react"
 import { celesupBackendApi } from "../../../axiosConfig"
 import Textarea from "../../components/UI/Textarea"
 import { usePostComment } from "../../hooks"

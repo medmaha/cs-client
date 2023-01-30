@@ -10,7 +10,6 @@ import UserCard from "../../components/UI/UserCard"
 import { GlobalContext } from "../../../layouts/context"
 
 import { CommentInterface, CommentPropsInterface } from "./interface"
-import { UserInterface } from "../globalInterface"
 
 export default function Comment({
     data,
@@ -92,7 +91,7 @@ export default function Comment({
             return render(comment.parent, 0)
         }
 
-        function getUsername(author: UserInterface) {
+        function getUsername(author) {
             if (author.id === globalContext.user.id) {
                 return <span className="text-bold">Me</span>
             }

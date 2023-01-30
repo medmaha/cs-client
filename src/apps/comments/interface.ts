@@ -1,6 +1,6 @@
 import { ReducerAction, ReducerState } from "../../hooks/comments/interface"
-import { UserInterface } from "../globalInterface"
-import { PostInterface } from "../posts/interfaces"
+import { Author } from "../globalInterface"
+import { Post } from "../posts/types/post"
 
 export type Comments = {
     objects_count?: number
@@ -14,12 +14,12 @@ export type Comments = {
 }
 
 export interface CommentsWrapperPropsInterface {
-    post: PostInterface
+    post: Post
 }
 
 export interface CommentListPropsInterface {
     comments: Comments
-    post: PostInterface
+    post: Post
     getComments: () => {}
     updateComments: any
 }
@@ -33,9 +33,9 @@ export interface CommentInterface {
     file?: string
     parent?: CommentInterface | null
     replies?: CommentInterface[]
-    author?: UserInterface
-    likes?: UserInterface[]
-    post: PostInterface
+    author?: Author
+    likes?: Author[]
+    post: Post
 }
 
 export interface updateCommentsCallBackInterface {

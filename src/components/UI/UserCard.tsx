@@ -1,14 +1,15 @@
 import Image from "next/image"
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import Dropdown from "./Dropdown"
 import Button from "./Button"
 
 let hoveringTimeout
 
+import { Author } from "../../apps/globalInterface"
+
 type UserCard = {
     link?: boolean
     btnElement: React.ReactNode
-    author: {}
+    author: Author
 }
 
 export default function UserCard({ link, btnElement, author }: UserCard) {
