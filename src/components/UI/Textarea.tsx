@@ -47,9 +47,7 @@ export default function Textarea(props) {
     function computeHeight() {
         let h
         if (props.rows > 1) {
-            h = `calc(${textareaRef.current.scrollHeight}px + (${
-                height * props.rows
-            }))`
+            h = `calc(${textareaRef.current.scrollHeight}px + (${height} * ${props.rows}))`
         } else {
             h = height
         }
