@@ -6,12 +6,28 @@ import CSCookie from "../../../libs/cookies"
 import { updateMoods } from "../../redux/app"
 import Post from "./Post"
 
+import * as T from "./interfaces"
+
 const COOKIES = CSCookie()
+
+function init(): T.PostList {
+    return {
+        objects_count: 0,
+        page_index: 0,
+        page_size: 0,
+        page_count: 0,
+        links: {
+            next: null,
+            prev: null,
+        },
+        data: [],
+    }
+}
 
 export default function PostContainer() {
     const { moods } = useContext(GlobalContext)
 
-    const [posts, setPosts] = useState({})
+    const [posts, setPosts] = useState(init())
 
     useEffect(() => {
         fetchPosts()
@@ -20,7 +36,7 @@ export default function PostContainer() {
     useEffect(() => {
         const _p = COOKIES.get("post")
         if (moods.updateFeeds === "post" && _p) {
-            const post = JSON.parse(_p)
+            const post: T.Post = JSON.parse(_p)
 
             COOKIES.del("post")
             updateMoods({ updateFeeds: null })
