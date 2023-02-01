@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { GlobalContext } from "../layouts/context"
+import { GlobalContext } from "../src//layouts/context"
 
 import jwtDecode from "jwt-decode"
 
@@ -19,3 +19,4 @@ export default function Index({ user: data, tokens }) {
         </>
     )
 }
+

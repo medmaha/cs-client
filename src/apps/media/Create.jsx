@@ -1,13 +1,11 @@
-import { Provider } from "react-redux"
-import { createContext, useCallback, useEffect, useState } from "react"
-import { AppStore } from "../../redux/store"
+import { useCallback, useState } from "react"
 
 import Modal from "../../components/UI/Modal"
 
 // ? Post Components
 import CreatePost from "./post/CreatePost"
 
-export default function Create({ onClick }) {
+export default function Create({ onClick = () => {} }) {
     const [modalConfig, updateModalConfig] = useState({})
 
     const setConfig = useCallback((data) => {

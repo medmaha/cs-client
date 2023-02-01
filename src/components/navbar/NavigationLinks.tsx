@@ -1,4 +1,4 @@
-import { capitalize } from "../../../libs/texts"
+import { capitalize } from "../../library/texts"
 import Icon from "../UI/Icon"
 import Link from "next/link"
 

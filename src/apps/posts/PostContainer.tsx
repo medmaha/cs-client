@@ -1,8 +1,7 @@
-import axios from "axios"
-import { useCallback, useContext, useEffect, useState } from "react"
-import { celesupBackendApi, celesupFrontendApi } from "../../../axiosConfig"
-import { GlobalContext } from "../../../layouts/context"
-import CSCookie from "../../../libs/cookies"
+import { useContext, useEffect, useState } from "react"
+import { celesupBackendApi } from "../../../src/axiosInstance"
+import { GlobalContext } from "../../layouts/context"
+import CSCookie from "../../library/cookies"
 import { updateMoods } from "../../redux/app"
 import Post from "./Post"
 

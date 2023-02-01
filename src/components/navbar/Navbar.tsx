@@ -8,10 +8,10 @@ import Input from "../UI/Input"
 import Icon from "../UI/Icon"
 import Button from "../UI/Button"
 
-import { GlobalContext } from "../../../layouts/context"
+import { GlobalContext } from "../../layouts/context"
 import Profile from "./Profile"
 import { updateMoods } from "../../redux/app"
-import CSCookie from "../../../libs/cookies"
+import CSCookie from "../../library/cookies"
 
 function Navbar() {
     const globalContext = useContext(GlobalContext)
@@ -24,7 +24,7 @@ function Navbar() {
     }, [globalContext.user])
 
     function createLinkHandler() {
-        globalContext.storeDispatch(updateMoods({ createPost: "create" }))
+        globalContext.storeDispatch(updateMoods({ create: "create" }))
     }
 
     return (

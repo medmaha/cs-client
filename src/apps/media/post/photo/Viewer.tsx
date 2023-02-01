@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { updateForm, updatePages } from "../../../../redux/createPost"
+import { updatePostForm, updatePostPages } from "../../../../redux/create"
 import Filter from "./Filter"
 
 let Last_FILTER = ""
 
-import CSCryptography from "../../../../../libs/crypto"
+import CSCryptography from "../../../../library/crypto"
 
-import * as Types from "./types/viewer"
+import * as T from "./types/viewer"
+import * as ST from "../../../../redux/types"
 
 export default function PhotoEditor({ setConfig }) {
     const [image, setImage] = useState<HTMLImageElement | null>(null)
@@ -17,8 +18,8 @@ export default function PhotoEditor({ setConfig }) {
 
     const postImageViewerRef = useRef()
 
-    const { form } = useSelector(
-        (state: Types.ReduxStoreState) => state.createPost,
+    const { form, pages } = useSelector(
+        (state: ST.AppStore) => state.create.post,
     )
     const storeDispatch = useDispatch()
 
@@ -29,23 +30,27 @@ export default function PhotoEditor({ setConfig }) {
 
         img.addEventListener("load", imageLoaded)
 
-        const cp = localStorage.getItem("cp")
+        // const cp = localStorage.getItem("cp")
+        // if (cp) {
+        //     const pages = JSON.parse(CSCryptography.decrypt(cp))
+        //     pages["prev"] = {
+        //         from: pages.prev.value,
+        //         value: pages.current.from,
+        //     }
+        //     pages["current"] = { from: pages.current.value, value: "PHOTO" }
+        //     pages["next"] = { from: "PHOTO", value: null }
 
-        if (cp) {
-            const pages = JSON.parse(CSCryptography.decrypt(cp))
-            pages["prev"] = {
-                from: pages.prev.value,
-                value: pages.current.from,
-            }
-            pages["current"] = { from: pages.current.value, value: "PHOTO" }
-            pages["next"] = { from: "PHOTO", value: null }
+        //     localStorage.setItem(
+        //         "cp",
+        //         CSCryptography.encrypt(JSON.stringify(pages)),
+        //     )
+        // }
 
-            localStorage.setItem(
-                "cp",
-                CSCryptography.encrypt(JSON.stringify(pages)),
-            )
-        }
-        storeDispatch(updatePages({ page: "PHOTO" }))
+        const prev = pages.current
+        const current = "PHOTO"
+        const next = "PREVIEW"
+
+        storeDispatch(updatePostPages({ prev, next, current }))
 
         return () => {
             img.removeEventListener("load", imageLoaded)
@@ -95,6 +100,7 @@ export default function PhotoEditor({ setConfig }) {
             Last_FILTER = filter || Last_FILTER
         }
         canvasContext.drawImage(image, 0, 0, canvas.width, canvas.height)
+        updateFile()
     }
 
     async function resizeImage(photo: HTMLImageElement) {
@@ -138,14 +144,14 @@ export default function PhotoEditor({ setConfig }) {
 
         const dataURL = canvas.toDataURL(`${MIME_TYPE}`, 95)
 
-        storeDispatch(updateForm({ picture: dataURL }))
+        storeDispatch(updatePostForm({ picture: dataURL }))
     }
 
     return (
         <div
             id={"postImageViewer__"}
             ref={postImageViewerRef}
-            className="min-h-[300px] h-max flex flex-col justify-between"
+            className="min-h-[300px] h-max flex flex-col justify-between transition"
             data-photo-wrapper
         >
             <div
@@ -155,7 +161,7 @@ export default function PhotoEditor({ setConfig }) {
             >
                 <canvas
                     data-post-canvas
-                    className="cs-outline rounded-md tertiary-bg outline-1 height-100"
+                    className="cs-outline rounded-md tertiary-bg outline-1 height-100 transition"
                     width={300}
                     height={300}
                 ></canvas>

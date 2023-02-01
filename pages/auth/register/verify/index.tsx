@@ -1,16 +1,15 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useContext, useLayoutEffect, useState } from "react"
 import Form from "../../components/Form"
 
-import CSCryptography from "../../../../libs/crypto"
-import { celesupBackendApi } from "../../../../axiosConfig"
-import Link from "next/link"
+import CSCryptography from "../../../../src/library/crypto"
+import { celesupBackendApi } from "../../../../src/axiosInstance"
 import Popup from "../../../../src/components/UI/Popup"
-import Input from "../../../../src/components/UI/Input"
 
 import useAuthAxiosRequest from "../../../../src/hooks/auth/useAuthAxiosRequests"
-import Toast from "../../../../libs/toast"
-import { GlobalContext } from "../../../../layouts/context"
+import Toast from "../../../../src/library/toast"
+import { GlobalContext } from "../../../../src/layouts/context"
 
 export default function VerifyAccount() {
     const [encryptedData, setEncryptedData] = useState({})

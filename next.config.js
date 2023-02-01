@@ -4,7 +4,7 @@ const path = require("path")
 // const withSession = require("next-session")
 
 const nextConfig = {
-    reactStrictMode: true,
+    // reactStrictMode: true,
 
     headers: async function () {
         return [
@@ -23,7 +23,7 @@ const nextConfig = {
         includePaths: [path.join(__dirname, "styles")],
     },
     images: {
-        domains: [process.env.IMAGE_DOMAIN || "", "localhost"],
+        domains: ["mahamedtoure.pythonanywhere.com", "localhost"],
     },
     env: {
         CELESUP_BACKEND_URL: process.env.CELESUP_BACKEND_URL,

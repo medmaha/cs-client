@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
 import { useContext, useLayoutEffect } from "react"
-import { GlobalContext } from "../../../layouts/context"
-import { capitalize } from "../../../libs/texts"
+import { GlobalContext } from "../../../src/layouts/context"
+import { capitalize } from "../../../src/library/texts"
 import Form from "../../../src/components/UI/Form"
-import Toast from "../../../libs/toast"
-import { celesupBackendApi } from "../../../axiosConfig"
+import Toast from "../../../src/library/toast"
+import { celesupBackendApi } from "../../../src/axiosInstance"
 import useAuthAxiosRequests from "../../../src/hooks/auth/useAuthAxiosRequests"
 
 //

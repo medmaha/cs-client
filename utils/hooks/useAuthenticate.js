@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from "react"
 import { Router, useRouter } from "next/router"
 import { celesupBackendApi } from "../../axiosConfig"
-import CSCookie from "../../libs/cookies"
+import CSCookie from "../../library/cookies"
 import { useLayoutEffect } from "react"
-import { getErrorMessageFromRequest } from "../getErrorMessageFromResponse"
+import { getErrorMessageFromRequest } from "../../../utils/getErrorMessageFromResponse"
 
 export default function useAuthenticated(user) {
     const router = useRouter()

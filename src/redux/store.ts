@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
-import postReducer from "./createPost"
 import appSlice from "./app"
+import createMediaSlice from "./create"
 
 const AppStore = configureStore({
     reducer: {
         main: appSlice,
-        createPost: postReducer,
+        create: createMediaSlice,
     },
 })
 

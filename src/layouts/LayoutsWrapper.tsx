@@ -1,13 +1,12 @@
 import META from "./META"
-import Navbar from "../src/components/navbar/Navbar"
 import { Provider } from "react-redux"
-import AppsReduxStore from "../src/redux/store"
 import ContextProvider from "./context"
-import { useEffect } from "react"
+import AppsReduxStore from "../redux/store"
+import Navbar from "../components/navbar/Navbar"
 
 export default function LayoutsWrapper({ children }) {
     return (
-        <Layout className="">
+        <Layout>
             <META />
 
             <Navbar />

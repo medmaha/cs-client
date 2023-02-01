@@ -5,7 +5,7 @@ function META({ title, keywords }) {
     return (
         <Head>
             <meta name="keywords" content={keywords} />
-            {/* <link rel="favicon" href="#" /> */}
+            <link rel="shortcut icon" href="#" />
             <link rel="icon" href="#"></link>
             <title>{title}</title>
         </Head>

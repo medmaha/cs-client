@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Icon from "../../../components/UI/Icon"
-import { updateForm } from "../../../redux/createPost"
+import { updatePostForm } from "../../../redux/create"
 
-import * as Types from "./types/PostCreateDispatcher"
+import * as T from "./types/PostCreateDispatcher"
+import * as ST from "../../../redux/types"
 import fileUploader from "./uploader"
 
 export default function PostCreateFooter({ uploader, dispatcher }) {
     const { form, pages } = useSelector(
-        (state: Types.ReduxStoreState) => state.createPost,
+        (state: ST.AppStore) => state.create.post,
     )
 
     const [footer, setFooter] = useState(null)
 
     useEffect(() => {
-        switch (pages.page.toUpperCase()) {
+        switch (pages.current) {
             case "CREATE":
             case "FORM":
             case "TEXT":
@@ -29,7 +30,6 @@ export default function PostCreateFooter({ uploader, dispatcher }) {
                 // setFooter(<FormFooter uploader={uploader} />)
                 setFooter(null)
         }
-
         // eslint-disable-next-line
     }, [pages, form])
 
@@ -48,16 +48,13 @@ export default function PostCreateFooter({ uploader, dispatcher }) {
 
 const Footer = ({ uploader, dispatcher }) => {
     const storeDispatch = useDispatch()
-    const { form } = useSelector(
-        (state: Types.ReduxStoreState) => state.createPost,
-    )
 
     async function uploadImage(ev) {
         const mediaType = ev.currentTarget.dataset.file
         const [fileType, file] = await fileUploader(mediaType)
 
         storeDispatch(
-            updateForm({
+            updatePostForm({
                 [fileType]: file,
             }),
         )

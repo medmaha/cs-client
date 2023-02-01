@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-// import jwtDecode from "jwt-decode"
-// import { UseCookie } from "../hooks/useCookie"
 
-// const COOKIES = UseCookie()
 const COOKIES = { set() {}, get() {}, erase() {} }
 
 export const appSlice = createSlice({
@@ -27,6 +24,7 @@ export const appSlice = createSlice({
 
         moods: {
             createPost: false,
+            create: false,
             updateFeeds: false,
             playingAudio: false,
 
@@ -78,6 +76,7 @@ export const appSlice = createSlice({
             if (action.payload.dispatch) {
                 state.moods = {
                     createPost: false,
+                    create: false,
                     playingAudio: false,
 
                     loadingRequest: false,

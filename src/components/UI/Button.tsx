@@ -1,5 +1,5 @@
 import React from "react"
-import { changeClassName } from "../../../libs/texts"
+import { changeClassName } from "../../library/texts"
 
 function Button(props) {
     const { className, text, __class, ...resProps } = props

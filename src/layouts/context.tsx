@@ -1,20 +1,21 @@
 import { createContext, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { celesupFrontendApi } from "../axiosConfig"
-import CSCookie from "../libs/cookies"
-import { updateAuthUser, updateAuthTokens } from "../src/redux/app"
-import { useAuthenticated } from "../utils/hooks"
+import { updateAuthUser, updateAuthTokens } from "../redux/app"
+import useAuthenticate from "./hooks/useAuthenticate"
 
-import Toast from "../libs/toast"
-import { Create } from "../src/apps/media"
+import { Create } from "../apps/media"
 import { useLayoutEffect } from "react"
 
-const GlobalContext = createContext()
+import * as T from "./types"
+
+const GlobalContext = createContext<T.GlobalContext>({})
 
 function ContextProvider({ children }) {
-    const { user, tokens, moods } = useSelector((state) => state.main)
+    const { user, tokens, moods } = useSelector(
+        (state: T.AppStore) => state.main,
+    )
 
-    const { authData, authPending } = useAuthenticated(user)
+    const { authData, authPending } = useAuthenticate(user)
 
     const storeDispatch = useDispatch()
 
@@ -38,9 +39,7 @@ function ContextProvider({ children }) {
             {!authPending && (
                 <>
                     {children}
-                    {moods.createPost && (
-                        <Create type={moods.createPost.toLowerCase()} />
-                    )}
+                    {moods.create && <Create />}
                 </>
             )}
         </GlobalContext.Provider>

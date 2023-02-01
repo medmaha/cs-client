@@ -1,10 +1,10 @@
 import Image from "next/image"
 import { useContext, useEffect, useReducer, useState } from "react"
-import { celesupBackendApi } from "../../../axiosConfig"
+import { celesupBackendApi } from "../../../src/axiosInstance"
 
-import { GlobalContext } from "../../../layouts/context"
+import { GlobalContext } from "../../layouts/context"
 
-import CSDateTime from "../../../libs/dateTime"
+import CSDateTime from "../../library/dateTime"
 import UserCard from "../../components/UI/UserCard"
 import CommentsWrapper from "../comments"
 import { Headers, Typography, Media, Interactions } from "./components"

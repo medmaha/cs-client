@@ -1,4 +1,4 @@
-import { changeClassName } from "../../../libs/texts"
+import { changeClassName } from "../../library/texts"
 
 function Input(props) {
     let { id, altText, className, ...restProps } = props

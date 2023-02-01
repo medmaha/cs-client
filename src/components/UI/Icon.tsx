@@ -1,4 +1,4 @@
-import { changeClassName } from "../../../libs/texts"
+import { changeClassName } from "../../library/texts"
 
 import { iconsMap } from "../../../utils/iconsMap"
 

@@ -1,8 +1,7 @@
-import LayoutsWrapper from "../layouts/LayoutsWrapper"
+import LayoutsWrapper from "../src/layouts/LayoutsWrapper"
 import NextJSProgressBar from "nextjs-progressbar"
 import "../styles/index.scss"
 import { useEffect, useState } from "react"
-import { TRACE_OUTPUT_VERSION } from "next/dist/shared/lib/constants"
 
 export default function App({ Component, pageProps }) {
     const [loaded, setLoaded] = useState(false)

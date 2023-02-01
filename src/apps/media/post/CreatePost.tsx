@@ -5,18 +5,20 @@ import React, {
     useLayoutEffect,
     createContext,
 } from "react"
-import { GlobalContext } from "../../../../layouts/context"
+import { GlobalContext } from "../../../layouts/context"
 
 import * as Types from "./types/CreatePost"
 
 import PostForm from "./text"
-import PhotoPreview from "./photo"
+import Photo from "./photo"
+import Preview from "./preview"
 
-import { updateForm } from "../../../redux/createPost"
+import { updatePostForm, updatePostPages } from "../../../redux/create"
 
 import fileUploader from "./uploader"
 import PostCreateHeader from "./PostCreateHeader"
 import PostCreateFooter from "./PostCreateFooter"
+import { updateMoods } from "../../../redux/app"
 
 export const PostContext = createContext({})
 
@@ -33,7 +35,8 @@ export default function CreatePost({ setConfig }) {
             ),
         })
 
-        const action = globalContext.moods.createPost?.toLowerCase()
+        const action = globalContext.moods.create.valueOf()
+
         switch (action) {
             case "photo":
             case "video":
@@ -44,9 +47,12 @@ export default function CreatePost({ setConfig }) {
                 dispatcher()
                 break
         }
-        globalContext.storeDispatch(updateForm({ dispatch: true }))
-        // return async () => {
-        //     uploader("cleanUp")
+        globalContext.storeDispatch(updatePostForm({ dispatch: true }))
+        globalContext.storeDispatch(updatePostPages({ dispatch: true }))
+
+        // return () => {
+        //     globalContext.storeDispatch(updateMoods({ updateFeeds: false }))
+        //     globalContext.storeDispatch(updateMoods({ create: false }))
         // }
         // eslint-disable-next-line
     }, [])
@@ -57,6 +63,7 @@ export default function CreatePost({ setConfig }) {
             payload: { config: setConfig },
         }
         reducerDispatch(data)
+        // eslint-disable-next-line
     }, [])
 
     const uploader = useCallback(
@@ -65,7 +72,7 @@ export default function CreatePost({ setConfig }) {
 
             if (mediaType && fileBuffer) {
                 globalContext.storeDispatch(
-                    updateForm({
+                    updatePostForm({
                         [mediaType]: fileBuffer,
                     }),
                 )
@@ -88,7 +95,7 @@ function reducer(state: Types.ReducerState, action: Types.ReducerAction) {
             }
         case "PHOTO":
             return {
-                currentJXS: getCurrentJsx(PhotoPreview, action.payload.config),
+                currentJXS: getCurrentJsx(Photo, action.payload.config),
             }
         // case "VIDEO":
         //     return {
@@ -98,10 +105,10 @@ function reducer(state: Types.ReducerState, action: Types.ReducerAction) {
         //     return {
         //         currentJXS: getCurrentJsx(PhotoEditor),
         //     }
-        // case "PREVIEW":
-        //     return {
-        //         currentJXS: getCurrentJsx(PostPreview),
-        //     }
+        case "PREVIEW":
+            return {
+                currentJXS: getCurrentJsx(Preview),
+            }
         default:
             return state
     }

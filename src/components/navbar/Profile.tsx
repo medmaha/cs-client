@@ -4,7 +4,6 @@ import Image from "next/image"
 import { useDispatch } from "react-redux"
 
 import { updateMoods } from "../../redux/app"
-import { CELESUP_BACKEND_URL } from "../../../axiosConfig"
 
 export default function Profile({ globalContext, validatingUser }) {
     const [onlineStatus, setOnlineStatus] = useState(false)

@@ -3,7 +3,7 @@ import EmailSignup from "./EmailSignup"
 import PasswordSignup from "./PasswordSignup"
 import { useRouter } from "next/router"
 
-import CSCryptography from "../../../libs/crypto"
+import CSCryptography from "../../../src/library/crypto"
 
 export default function Register() {
     const [state, dispatchStates] = useReducer(reducer, {

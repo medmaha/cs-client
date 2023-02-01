@@ -6,7 +6,7 @@ import React, {
     useRef,
     useState,
 } from "react"
-import { celesupBackendApi } from "../../../axiosConfig"
+import { celesupBackendApi } from "../../../src/axiosInstance"
 import { CommentInterface } from "../../apps/comments/interface"
 
 import { ReducerState, ReducerAction } from "./interface"

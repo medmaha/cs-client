@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { GlobalContext } from "../../layouts/context"
+import { GlobalContext } from "../layouts/context"
 import Compose from "../components/UI/Compose"
 import Suggestions from "../apps/suggestions"
 import PostContainer from "../apps/posts"

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
 import Form from "../components/Form"
-import { celesupBackendApi } from "../../../axiosConfig"
 
 import useAuthAxiosRequests from "../../../src/hooks/auth/useAuthAxiosRequests"
 import { useContext } from "react"
-import { GlobalContext } from "../../../layouts/context"
+import { GlobalContext } from "../../../src/layouts/context"
 
 interface Response {
     data: {

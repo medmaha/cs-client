@@ -1,61 +1,50 @@
-import { GlobalContext } from "../../../../../layouts/context"
+import { GlobalContext } from "../../../../layouts/context"
 import Textarea from "../../../../components/UI/Textarea"
 import HashtagField from "../../../../components/UI/HashtagField"
 
 import { useState, useEffect, useContext, useRef } from "react"
 
 import { useSelector } from "react-redux"
-import { updateForm, updatePages } from "../../../../redux/createPost"
+import { updatePostForm, updatePostPages } from "../../../../redux/create"
 
 // import fileUploader from "./uploader"
 import { PostContext } from "../CreatePost"
 import Input from "../../../../components/UI/Input"
 import Image from "next/image"
 
-import CSCryptography from "../../../../../libs/crypto"
+import CSCryptography from "../../../../library/crypto"
+
+import * as StoreTypes from "../../../../redux/types"
 
 const PostForm = () => {
-    const postFormWrapperRef = useRef()
+    const postFormWrapperRef = useRef(null)
     const globalContext = useContext(GlobalContext)
     const postContext = useContext(PostContext)
-    const { form } = useSelector((state) => state.createPost)
-    const [addHashtag, setAddHashTag] = useState(form.hashtags)
+    const { form, pages } = useSelector(
+        (state: StoreTypes.AppStore) => state.create.post,
+    )
+    const [addHashtag, setAddHashTag] = useState(!!form.hashtags)
 
     useEffect(() => {
         postFormWrapperRef.current.children[0].focus()
 
-        const cp = localStorage.getItem("cp")
+        const current = "FORM"
 
-        if (cp) {
-            const pages = JSON.parse(CSCryptography.decrypt(cp))
-            pages["next"] = { from: pages.current.value, value: "FORM" }
-            pages["current"] = { from: pages.current.value, value: "FORM" }
-            pages["prev"] = { from: null, value: null }
-            localStorage.setItem(
-                "cp",
-                CSCryptography.encrypt(JSON.stringify(pages)),
-            )
-        } else {
-            const pages = { current: { from: null, value: "FORM" } }
-            localStorage.setItem(
-                "cp",
-                CSCryptography.encrypt(JSON.stringify(pages)),
-            )
-        }
+        globalContext.storeDispatch(updatePostPages({ current }))
 
-        globalContext.storeDispatch(updatePages({ page: "FORM" }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     function handleFormChange({ target }) {
         globalContext.storeDispatch(
-            updateForm({
+            updatePostForm({
                 [target.name]: target.value,
             }),
         )
     }
 
     return (
-        <div className="relative flex flex-col justify-between mt-2">
+        <div className="transition relative flex flex-col justify-between mt-2">
             {/* ? form Wrapper */}
             <div
                 className="w-[100%] flex-1"
@@ -86,8 +75,8 @@ const PostForm = () => {
                     <div className="flex flex-col">
                         <div className="">
                             <p className="tracking-wide px-1 font-semibold">
-                                {globalContext.user?.full_name ? (
-                                    <span>{globalContext.user.full_name}</span>
+                                {globalContext.user?.name ? (
+                                    <span>{globalContext.user.name}</span>
                                 ) : (
                                     <span>@{globalContext.user.username}</span>
                                 )}
@@ -120,8 +109,8 @@ const PostForm = () => {
                             spellCheck={false}
                             aria-label="Post Caption"
                             placeholder={`What's on your mind? ${
-                                globalContext.user.first_name
-                                    ? globalContext.user.first_name
+                                globalContext.user.name
+                                    ? globalContext.user.name
                                     : globalContext.user.username
                             }`}
                             value={form.caption || ""}

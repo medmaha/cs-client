@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react"
-import { celesupBackendApi } from "../../../axiosConfig"
-import Toast from "../../../libs/toast"
+import { celesupBackendApi } from "../../../src/axiosInstance"
+import Toast from "../../library/toast"
 import { getErrorMessageFromRequest } from "../../../utils/getErrorMessageFromResponse"
 import { AuthHookAction, AuthHookState, RequestParams } from "./interface"
 

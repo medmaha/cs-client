@@ -8,14 +8,27 @@ export const celesupBackendApi = axios.create({
     withCredentials: true,
     headers: {
         "Content-Type": "application/json",
-        "Celesup-APi": `${axios.VERSION}v`,
-        // Authorization: "Bearer YOUR_TOKEN",
+        "Celesup-API": `${axios.VERSION}v`,
+        // Authorization: "CELESUP <AUTH_TOKEN>",
     },
 })
 
 celesupBackendApi.interceptors.request.use((config) => {
     return config
 })
+
+// celesupBackendApi.interceptors.response.use(
+//     (res) => {
+//         return Promise.resolve(res)
+//     },
+//     (err) => {
+//         if (err.response?.status === 403 || err.response?.status === 401) {
+//             window.location.href = "/auth/login"
+//         }
+
+//         return Promise.reject(err)
+//     },
+// )
 
 //? ----------------------------------------------------------------------------------------------------------------------------------
 //! ----------------------------------------------------------------------------------------------------------------------------------

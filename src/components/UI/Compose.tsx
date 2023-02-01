@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { GlobalContext } from "../../../layouts/context"
-import { capitalize } from "../../../libs/texts"
+import { GlobalContext } from "../../layouts/context"
+import { capitalize } from "../../library/texts"
 import { updateMoods } from "../../redux/app"
 import Icon from "./Icon"
 import Image from "./Image"
@@ -28,7 +28,7 @@ export default function Compose() {
                         onClick={() => {
                             globalContext.storeDispatch(
                                 updateMoods({
-                                    createPost: "form",
+                                    create: "form",
                                 }),
                             )
                         }}
@@ -68,7 +68,7 @@ export default function Compose() {
                                     onClick={(ev) => {
                                         globalContext.storeDispatch(
                                             updateMoods({
-                                                createPost: "photo",
+                                                create: "photo",
                                             }),
                                         )
                                     }}

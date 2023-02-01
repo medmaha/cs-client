@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect } from "react"
-import { celesupBackendApi } from "../../../axiosConfig"
+import { celesupBackendApi } from "../../../src/axiosInstance"
 import Textarea from "../../components/UI/Textarea"
 import { usePostComment } from "../../hooks"
 import CommentList from "./CommentList"

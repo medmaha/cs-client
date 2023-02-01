@@ -1,13 +1,13 @@
 import Image from "next/image"
 import { useContext, useRef, useState } from "react"
 
-import { capitalize } from "../../../libs/texts"
-import CSDateTime from "../../../libs/dateTime"
+import { capitalize } from "../../library/texts"
+import CSDateTime from "../../library/dateTime"
 import Icon from "../../components/UI/Icon"
 import Textarea from "../../components/UI/Textarea"
-import { celesupBackendApi } from "../../../axiosConfig"
+import { celesupBackendApi } from "../../../src/axiosInstance"
 import UserCard from "../../components/UI/UserCard"
-import { GlobalContext } from "../../../layouts/context"
+import { GlobalContext } from "../../layouts/context"
 
 import { CommentInterface, CommentPropsInterface } from "./interface"
 

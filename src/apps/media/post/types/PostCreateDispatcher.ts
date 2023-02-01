@@ -16,10 +16,14 @@ export type Form = {
     picture?: string
     audio?: string
     video?: string
+    created_at?: string
+    [key: string]: any
 }
 
 export type Pages = {
-    page: "string"
+    prev: null | string
+    current: null | string
+    next: null | string
 }
 
 export type PostStore = {

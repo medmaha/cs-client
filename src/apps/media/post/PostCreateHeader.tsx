@@ -1,10 +1,10 @@
 import { updateMoods } from "../../../redux/app"
-import { updateForm, updatePages } from "../../../redux/createPost"
+import { updatePostForm, updatePostPages } from "../../../redux/create"
 
-import { celesupBackendApi } from "../../../../axiosConfig"
+import { celesupBackendApi } from "../../../../src/axiosInstance"
 
 import { createFileFromDataUrl } from "./utils"
-import CSCookie from "../../../../libs/cookies"
+import CSCookie from "../../../library/cookies"
 import useCreateDispatcher from "./useCreateDispatcher"
 
 import * as Types from "./types/PostCreateDispatcher"
@@ -145,12 +145,12 @@ async function submitPostForm(
                     value: JSON.stringify(res.data.post),
                 })
 
-                storeDispatch(updateForm({ dispatch: true }))
-                storeDispatch(updatePages({ dispatch: true }))
+                storeDispatch(updatePostForm({ dispatch: true }))
+                storeDispatch(updatePostPages({ dispatch: true }))
                 storeDispatch(
                     updateMoods({
                         updateFeeds: "post",
-                        createPost: null,
+                        create: false,
                     }),
                 )
             },
