@@ -97,7 +97,7 @@ function reducer(state, action) {
                 ...state,
                 prev: state.data,
                 data: "redirect",
-                redirect: "/auth/register/verify",
+                redirect: "/auth/verify",
             }
         default:
             state

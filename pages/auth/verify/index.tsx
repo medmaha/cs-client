@@ -1,46 +1,53 @@
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { useContext, useLayoutEffect, useState } from "react"
-import Form from "../../components/Form"
+import Form from "../components/Form"
 
-import CSCryptography from "../../../../src/library/crypto"
-import { celesupBackendApi } from "../../../../src/axiosInstance"
-import Popup from "../../../../src/components/UI/Popup"
+import CSCryptography from "../../../src/library/crypto"
+import { celesupBackendApi } from "../../../src/axiosInstance"
+import Popup from "../../../src/components/UI/Popup"
 
-import useAuthAxiosRequest from "../../../../src/hooks/auth/useAuthAxiosRequests"
-import Toast from "../../../../src/library/toast"
-import { GlobalContext } from "../../../../src/layouts/context"
+import useAuthAxiosRequest from "../../../src/hooks/auth/useAuthAxiosRequests"
+import Toast from "../../../src/library/toast"
+import { GlobalContext } from "../../../src/layouts/context"
+
+type DataStructure = {
+    phone?: string
+    email?: string
+    valid?: boolean
+}
 
 export default function VerifyAccount() {
-    const [encryptedData, setEncryptedData] = useState({})
+    const [encryptedData, setEncryptedData] = useState<DataStructure>()
     const { data, sendRequest } = useAuthAxiosRequest()
     const [showPopup, setShowPopup] = useState(false)
     const globalContext = useContext(GlobalContext)
 
-    const state = JSON.parse(localStorage.getItem("auth"), "{}")
+    const state = JSON.parse(localStorage.getItem("auth") || "{}")
 
     useLayoutEffect(() => {
         if (state) {
             const { key, value } = state
 
-            const decryptedKey = CSCryptography.decrypt(key)
-            const decryptedValue = CSCryptography.decrypt(value)
+            if (key && value) {
+                const decryptedKey = CSCryptography.decrypt(key)
+                const decryptedValue = CSCryptography.decrypt(value)
 
-            const __data = { valid: true }
+                const __data = { valid: true }
 
-            switch (decryptedKey) {
-                case "email":
-                    __data["email"] = decryptedValue
-                    break
-                case "phone":
-                    __data["phone"] = decryptedValue
-                    break
-                default:
-                    __data["valid"] = false
-                    break
+                switch (decryptedKey) {
+                    case "email":
+                        __data["email"] = decryptedValue
+                        break
+                    case "phone":
+                        __data["phone"] = decryptedValue
+                        break
+                    default:
+                        __data["valid"] = false
+                        break
+                }
+
+                setEncryptedData(__data)
             }
-
-            setEncryptedData(__data)
         }
     }, [])
 
