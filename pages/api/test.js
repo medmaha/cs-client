@@ -5,7 +5,7 @@ import axios from "axios"
 export default async function handler(req, res) {
     const form = { email: "admin@admin.com", password: "admin" }
     await axios
-        .post("http://localhost:8000/login", form, {
+        .post("https://mahamedtoure.pythonanywhere.com/login", form, {
             headers: { "Content-Type": "application/json" },
         })
         .then((_res) => {
