@@ -31,7 +31,7 @@ export default function useAuthenticated(user) {
         }
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         console.log("initial render")
 
         if (cookies.get("cs-csrfkey") || cookies.get("cs-auth-val")) {

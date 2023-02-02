@@ -66,7 +66,6 @@ class Toast {
     }
 
     set autoClose(value) {
-        console.log(value)
         if (!value) {
             this.#initOptions["canClose"] = false
             return

@@ -19,7 +19,7 @@ function ContextProvider({ children }) {
 
     const storeDispatch = useDispatch()
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (authData?.id) {
             storeDispatch(updateAuthUser({ user: authData }))
         }

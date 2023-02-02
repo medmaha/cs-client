@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         .then((_res) => {
             const cookies = _res.headers["set-cookie"] || []
             cookies.forEach((cookie) => {
+                console.log(cookie)
                 res.setHeader("Set-Cookie", cookie)
             })
             Promise.resolve(

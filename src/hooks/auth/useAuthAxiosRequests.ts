@@ -27,6 +27,8 @@ export default function useAuthAxiosRequests() {
             headers: options.headers,
         })
             .then((res) => {
+                console.log(res.headers)
+
                 dispatchState({
                     type: "REQUEST_SUCCEED",
                     payload: { ...state, data: res.data },
