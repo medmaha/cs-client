@@ -1,6 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default function handler(req, res) {
-    res.status(200).json({ CELESUP: "Welcome to Celesup Api" })
+import axios from "axios"
+
+export default async function handler(req, res) {
+    const form = { email: "admin@admin.com", password: "admin" }
+    await axios
+        .post("http://localhost:8000/login", form, {
+            headers: { "Content-Type": "application/json" },
+        })
+        .then((_res) => {
+            const cookies = _res.headers["set-cookie"] || []
+            cookies.forEach((cookie) => {
+                res.setHeader("Set-Cookie", cookie)
+            })
+            Promise.resolve(
+                res.status(200).json({ Celesup: "Welcome to Celesup Api" }),
+            )
+        })
+        .catch((err) => {
+            console.log(err.message)
+        })
 }
 

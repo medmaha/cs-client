@@ -4,13 +4,13 @@ import "../styles/index.scss"
 import { useEffect, useState } from "react"
 
 export default function App({ Component, pageProps }) {
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(true)
 
-    useEffect(() => {
-        if (document.readyState === "complete") {
-            setLoaded(true)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (document.readyState === "complete") {
+    //         setLoaded(true)
+    //     }
+    // }, [])
 
     return (
         <>

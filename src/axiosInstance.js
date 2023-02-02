@@ -1,7 +1,6 @@
 import axios from "axios"
 
 export const CELESUP_BACKEND_URL = process.env.CELESUP_BACKEND_URL
-export const CELESUP_FRONTEND_URL = process.env.CELESUP_FRONTEND_URL
 
 export const celesupBackendApi = axios.create({
     baseURL: CELESUP_BACKEND_URL,
@@ -9,6 +8,8 @@ export const celesupBackendApi = axios.create({
     headers: {
         "Content-Type": "application/json",
         "Celesup-API": `${axios.VERSION}v`,
+        // accept: "cookie",
+
         // Authorization: "CELESUP <AUTH_TOKEN>",
     },
 })
@@ -34,6 +35,7 @@ celesupBackendApi.interceptors.request.use((config) => {
 //! ----------------------------------------------------------------------------------------------------------------------------------
 //? ----------------------------------------------------------------------------------------------------------------------------------
 
+export const CELESUP_FRONTEND_URL = process.env.CELESUP_FRONTEND_URL
 let cancel_2
 
 export const celesupFrontendApi = axios.create({
