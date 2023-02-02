@@ -2,12 +2,13 @@ import { useContext, useState, useEffect } from "react"
 import { Router, useRouter } from "next/router"
 import { celesupBackendApi } from "../../../src/axiosInstance"
 import CSCookie from "../../library/cookies"
+import CSCryptography from "../../library/crypto"
 import { useLayoutEffect } from "react"
 import { getErrorMessageFromRequest } from "../../../utils/getErrorMessageFromResponse"
 
+const cookies = CSCookie()
 export default function useAuthenticated(user) {
     const router = useRouter()
-    const cookies = CSCookie()
 
     // const {data, pending, error} = useReducer(reducer,{data:null, pending:null, error:null})
 
@@ -15,45 +16,34 @@ export default function useAuthenticated(user) {
     const [authPending, setPending] = useState(true)
 
     function auth(path: string) {
-        if (!path.match(/\/auth\//g)) {
-            console.log(path)
-            if (cookies.get("cs-csrfkey") || cookies.get("cs-auth-val")) {
-                if (user?.id) {
-                    setData(user)
-                    setPending(false)
-                } else {
-                    authenticate()
-                }
-            } else {
-                router.replace("/auth/login")
-                setPending(false)
-            }
-        }
-    }
-
-    useEffect(() => {
-        console.log("initial render")
-
-        if (cookies.get("cs-csrfkey") || cookies.get("cs-auth-val")) {
-            if (user?.id) {
-                setData(user)
+        const __auth = isAuthenticated(path)
+        if (__auth === true) {
+            let encryptedUserData = localStorage.getItem("a-usr")
+            if (encryptedUserData) {
+                const decryptedUserData = JSON.parse(
+                    CSCryptography.decrypt(encryptedUserData),
+                )
+                setData(decryptedUserData)
                 setPending(false)
             } else {
                 authenticate()
             }
-        } else {
-            if (!window.location.href.match(/\/auth\//g)) {
-                router.replace("/auth/login")
-            }
+        } else if (__auth === "auth") {
+            setData(null)
             setPending(false)
+        } else {
+            router.replace("/auth/login")
         }
+    }
+
+    useEffect(() => {
+        const currentPath = window.location.href
+        auth(currentPath)
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        console.log("router events")
         router.events.on("routeChangeStart", auth)
-
         return () => {
             router.events.off("hashChangeStart", auth)
         }
@@ -65,6 +55,10 @@ export default function useAuthenticated(user) {
         celesupBackendApi
             .get("/authenticate")
             .then((res) => {
+                const encryptedUserData = CSCryptography.encrypt(
+                    JSON.stringify(res.data),
+                )
+                localStorage.setItem("a-usr", encryptedUserData)
                 setData(res.data)
             })
             .catch((err) => {
@@ -79,4 +73,18 @@ export default function useAuthenticated(user) {
     }
 
     return { authData, authPending }
+}
+
+function isAuthenticated(path: string): false | true | "auth" {
+    const authRoutes = path.match(/\/auth\//g)
+    const authPersistence =
+        !!cookies.get("cs-auth_id") ||
+        !!cookies.get("cs-auth-val") ||
+        !!localStorage.getItem("ata")
+
+    if (authRoutes) return "auth"
+
+    if (!authPersistence) return false
+
+    return true
 }

@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react"
 import { celesupBackendApi } from "../../../src/axiosInstance"
 import Toast from "../../library/toast"
+import CSCryptography from "../../library/crypto"
 import { getErrorMessageFromRequest } from "../../../utils/getErrorMessageFromResponse"
 import { AuthHookAction, AuthHookState, RequestParams } from "./interface"
 
@@ -27,7 +28,27 @@ export default function useAuthAxiosRequests() {
             headers: options.headers,
         })
             .then((res) => {
-                console.log(res.headers)
+                const tokens = res.data.tokens
+
+                if (tokens) {
+                    localStorage.setItem("ata", tokens.access)
+                    localStorage.setItem("atr", tokens.refresh)
+                    localStorage.setItem("atr", tokens.refresh)
+
+                    const decodedUserData = JSON.parse(
+                        atob(tokens.access.split(".")[1]),
+                    ).user
+                    const encodedUserData = CSCryptography.encrypt(
+                        JSON.stringify(decodedUserData),
+                    )
+
+                    localStorage.setItem("a-usr", encodedUserData)
+                } else {
+                    const encodedUserData = CSCryptography.encrypt(
+                        JSON.stringify(res.data),
+                    )
+                    localStorage.setItem("a-usr", encodedUserData)
+                }
 
                 dispatchState({
                     type: "REQUEST_SUCCEED",

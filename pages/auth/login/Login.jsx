@@ -1,11 +1,9 @@
 import { useRouter } from "next/router"
 import { useContext, useLayoutEffect } from "react"
 import { GlobalContext } from "../../../src/layouts/context"
-import { capitalize } from "../../../src/library/texts"
 import Form from "../../../src/components/UI/Form"
-import Toast from "../../../src/library/toast"
-import { celesupBackendApi } from "../../../src/axiosInstance"
 import useAuthAxiosRequests from "../../../src/hooks/auth/useAuthAxiosRequests"
+import { updateAuthUser } from "../../../src/redux/app"
 
 //
 export default function Login() {
@@ -16,9 +14,19 @@ export default function Login() {
     useLayoutEffect(() => {
         if (data) {
             router.replace("/")
+            const tokens = data.tokens
+            let user
+            if (tokens) {
+                const decodedToken = JSON.parse(
+                    atob(tokens.access.split(".")[1]),
+                )
+                user = decodedToken.user
+            } else {
+                user = { ...data }
+            }
             globalContext.storeDispatch(
-                globalContext.updateAuthUser({
-                    user: { ...data },
+                updateAuthUser({
+                    user: user,
                 }),
             )
         }

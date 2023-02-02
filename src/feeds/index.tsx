@@ -15,11 +15,12 @@ export default function Index() {
                     {" doesn't "}make sense to include in.
                 </div>
             </div> */}
-
-            <div className="flex-1 flex flex-col gap-[.4rem] items-center lg:basis-[550px] min-h-[100vh] max-w-[610px]">
-                <Compose />
-                <PostContainer />
-            </div>
+            {globalContext.user && (
+                <div className="flex-1 flex flex-col gap-[.4rem] items-center lg:basis-[550px] min-h-[100vh] max-w-[610px]">
+                    <Compose />
+                    <PostContainer />
+                </div>
+            )}
 
             {/* <div className="flex-1 justify-center w-full hidden md:inline-flex basis-[300px] min-w-[300px] md:max-w-[320px] lg:max-w-[380px]">
                 <div className="flex justify-center lg:p-2 lg:pr-1 h-max flex-col w-full">
