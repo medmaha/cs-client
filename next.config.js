@@ -23,11 +23,16 @@ const nextConfig = {
         includePaths: [path.join(__dirname, "styles")],
     },
     images: {
-        domains: ["mahamedtoure.pythonanywhere.com", "localhost"],
+        domains: (() => {
+            const domain = process.env.IMAGE_DOMAINS
+            return domain.split(",")
+        })(),
     },
     env: {
         CELESUP_BACKEND_URL: process.env.CELESUP_BACKEND_URL,
         CELESUP_FRONTEND_URL: process.env.CELESUP_FRONTEND_URL,
+        CS_CRYPTO_KEY: process.env.CS_CRYPTO_KEY,
+        IMAGE_DOMAINS: process.env.IMAGE_DOMAINS,
     },
 }
 

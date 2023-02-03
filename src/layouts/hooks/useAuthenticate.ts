@@ -1,12 +1,9 @@
-import { useContext, useState, useEffect } from "react"
-import { Router, useRouter } from "next/router"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 import { celesupBackendApi } from "../../../src/axiosInstance"
-import CSCookie from "../../library/cookies"
+import CSCookies from "../../library/cookies"
 import CSCryptography from "../../library/crypto"
-import { useLayoutEffect } from "react"
-import { getErrorMessageFromRequest } from "../../../utils/getErrorMessageFromResponse"
 
-const cookies = CSCookie()
 export default function useAuthenticated(user) {
     const router = useRouter()
 
@@ -78,8 +75,8 @@ export default function useAuthenticated(user) {
 function isAuthenticated(path: string): false | true | "auth" {
     const authRoutes = path.match(/\/auth\//g)
     const authPersistence =
-        !!cookies.get("cs-auth_id") ||
-        !!cookies.get("cs-auth-val") ||
+        !!CSCookies.get("cs-auth_id") ||
+        !!CSCookies.get("cs-auth-val") ||
         !!localStorage.getItem("ata")
 
     if (authRoutes) return "auth"

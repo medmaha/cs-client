@@ -1,9 +1,9 @@
 //
 
 // ? Client side cookie handler
-function CSCookie() {
-    //
-    function set(config = { name: "", value: "" }) {
+
+export default class CSCookies {
+    static set(config: any) {
         const options = {
             name: "",
             value: "",
@@ -13,6 +13,7 @@ function CSCookie() {
             secure: false,
             ...config,
         }
+
         var expiresDate = new Date()
         expiresDate.setTime(
             expiresDate.getTime() + options.expires * 24 * 60 * 60 * 1000,
@@ -34,8 +35,7 @@ function CSCookie() {
             sameSiteString +
             secureString
     }
-
-    function get(name: string) {
+    static get(name: string) {
         var nameEQ = name + "="
         var ca = document.cookie.split(";")
         for (var i = 0; i < ca.length; i++) {
@@ -46,12 +46,8 @@ function CSCookie() {
         }
         return null
     }
-    function del(name: string) {
+    static del(name: string) {
         document.cookie =
             name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
     }
-
-    return { set, get, del }
 }
-
-export default CSCookie

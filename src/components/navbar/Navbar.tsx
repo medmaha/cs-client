@@ -11,16 +11,16 @@ import Button from "../UI/Button"
 import { GlobalContext } from "../../layouts/context"
 import Profile from "./Profile"
 import { updateMoods } from "../../redux/app"
-import CSCookie from "../../library/cookies"
+import CSCookies from "../../library/cookies"
 
 function Navbar() {
     const globalContext = useContext(GlobalContext)
     const [validatingUser, setValidatingUser] = useState(
-        CSCookie().get("cs-auth-val"),
+        CSCookies.get("cs-auth-val"),
     )
 
     useEffect(() => {
-        setValidatingUser(CSCookie().get("cs-auth-val"))
+        setValidatingUser(CSCookies.get("cs-auth-val"))
     }, [globalContext.user])
 
     function createLinkHandler() {

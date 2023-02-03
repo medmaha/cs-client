@@ -9,7 +9,7 @@ type InitOptions = {
     text: string
 }
 
-class Toast {
+class CSToast {
     #toastElement: any
     #visibleSince: number
     #autoCloseTimeout: any
@@ -146,4 +146,4 @@ const DEFAULT_OPTIONS = {
     showProgress: true,
 }
 
-export default Toast
+export default CSToast

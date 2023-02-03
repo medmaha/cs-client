@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from "react"
 import { celesupBackendApi } from "../../../src/axiosInstance"
 import { GlobalContext } from "../../layouts/context"
-import CSCookie from "../../library/cookies"
+import CSCookies from "../../library/cookies"
 import { updateMoods } from "../../redux/app"
 import Post from "./Post"
 
 import * as T from "./types/post"
-
-const COOKIES = CSCookie()
 
 function init(): T.PostList {
     return {
@@ -33,11 +31,11 @@ export default function PostContainer() {
     }, [])
 
     useEffect(() => {
-        const _p = COOKIES.get("post")
+        const _p = CSCookies.get("post")
         if (moods.updateFeeds === "post" && _p) {
             const post: T.Post = JSON.parse(_p)
 
-            COOKIES.del("post")
+            CSCookies.del("post")
             updateMoods({ updateFeeds: null })
             setPosts((prev) => ({ ...prev, data: [post, ...prev.data] }))
         }

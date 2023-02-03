@@ -4,12 +4,10 @@ import { updatePostForm, updatePostPages } from "../../../redux/create"
 import { celesupBackendApi } from "../../../../src/axiosInstance"
 
 import { createFileFromDataUrl } from "./utils"
-import CSCookie from "../../../library/cookies"
+import CSCookies from "../../../library/cookies"
 import useCreateDispatcher from "./useCreateDispatcher"
 
 import * as Types from "./types/PostCreateDispatcher"
-
-const COOKIES = CSCookie()
 
 export default function PostCreateHeader({
     dispatcher: screenDispatcher,
@@ -140,7 +138,7 @@ async function submitPostForm(
         })
         .then(
             (res) => {
-                COOKIES.set({
+                CSCookies.set({
                     name: "post",
                     value: JSON.stringify(res.data.post),
                 })
