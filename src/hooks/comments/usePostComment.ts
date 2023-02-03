@@ -1,11 +1,4 @@
-import { link } from "fs"
-import React, {
-    useCallback,
-    useEffect,
-    useReducer,
-    useRef,
-    useState,
-} from "react"
+import React, { useCallback, useEffect, useReducer, useRef } from "react"
 import { celesupBackendApi } from "../../../src/axiosInstance"
 import { CommentInterface } from "../../apps/comments/interface"
 

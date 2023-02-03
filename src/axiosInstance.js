@@ -43,7 +43,7 @@ celesupBackendApi.interceptors.request.use(async (config) => {
                 abortController,
             )
         }
-    } else if (CSCookies().get("cs-auth_id")) {
+    } else if (CSCookies.get("cs-auth_id")) {
         const encodedUserData = localStorage.getItem("a-usr")
         if (!!encodedUserData) {
             const decodedUserData = JSON.parse(
@@ -54,7 +54,7 @@ celesupBackendApi.interceptors.request.use(async (config) => {
             ] = `${axios.VERSION}v||${decodedUserData.id}`
         } else {
             abortController.abort()
-            CSCookies().del("cs-auth_id")
+            CSCookies.del("cs-auth_id")
             if (window.location.href === "/auth/login") {
                 window.location.reload()
             } else {
@@ -110,8 +110,8 @@ celesupBackendApi.interceptors.response.use(
     (err) => {
         if (err.response?.status === 403 || err.response?.status === 401) {
             localStorage.removeItem("a-usr")
-            CSCookies().del("cs_auth_id")
-            CSCookies().del("cs_auth-val")
+            CSCookies.del("cs_auth_id")
+            CSCookies.del("cs_auth-val")
             window.location.href = "/auth/login"
         }
 

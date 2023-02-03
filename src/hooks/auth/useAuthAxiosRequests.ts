@@ -56,6 +56,8 @@ export default function useAuthAxiosRequests() {
                 })
             })
             .catch((err) => {
+                console.log(err)
+
                 const errMsg = getErrorMessageFromRequest(err)
                 dispatchState({
                     type: "REQUEST_FAILED",
