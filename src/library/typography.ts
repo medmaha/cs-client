@@ -1,5 +1,5 @@
 //
-class CSTypography {
+export default class CSTypography {
     static capitalize(value: string) {
         let data: string[]
 
